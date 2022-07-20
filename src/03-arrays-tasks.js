@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-plusplus */
 /* ********************************************************************************************
@@ -542,8 +543,18 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const map = new Map();
+  // eslint-disable-next-line array-callback-return
+  array.map((item) => {
+    const key = keySelector(item);
+    const value = valueSelector(item);
+    if (map.has(key)) {
+      map.get(key).push(value);
+    } else { map.set(key, [value]); }
+  });
+
+  return map;
 }
 
 
@@ -560,8 +571,13 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  const result = [];
+  // eslint-disable-next-line array-callback-return
+  arr.map((item) => {
+    result.push(...childrenSelector(item));
+  });
+  return result;
 }
 
 
@@ -577,8 +593,12 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  let result = arr;
+  indexes.map((index) => {
+    result = result[index];
+  });
+  return result;
 }
 
 
@@ -600,8 +620,17 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const i = Math.ceil(arr.length / 2) - 1;
+  if (arr.length % 2 === 0) {
+    const head = arr.slice(0, Math.floor(arr.length / 2));
+    const tail = arr.slice(Math.floor(arr.length / 2));
+    const result = tail.concat(head);
+    return result;
+  } const head = arr.slice(0, Math.floor(arr.length / 2));
+  const tail = arr.slice(Math.floor(arr.length / 2) + 1);
+  const result = tail.concat(arr[i]).concat(head);
+  return result;
 }
 
 
