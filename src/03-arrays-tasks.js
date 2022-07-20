@@ -319,8 +319,6 @@ function get3TopItems(arr) {
 function getPositivesCount(arr) {
   let d = [];
   d = arr.filter((item) => typeof item === 'number' && item > 0);
-
-  console.log(d);
   return d.length;
 }
 
