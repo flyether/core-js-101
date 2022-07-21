@@ -151,19 +151,26 @@ function getFastestPromise(array) {
 function chainPromises(/* array, action */) {
   // return new Promise((resolve, reject) => {
   //   let counter = 0;
+  //   const result = [];
   //   array.forEach((promise) => {
-  //     promise.then((value) => {
+  //     if (promise.ok) {
+  //       promise.then((value) => {
+  //         result.push(action(value));
+  //         counter += 1;
+  //       });
+  //     } else {
+  //       reject(new Error('Promise is rejected'));
   //       counter += 1;
-  //       if (counter === array.length) {
-  //         resolve(action(value));
-  //       }
-  //     }).catch((error) => {
-  //       reject(error);
-  //     });
+  //     }
+
+  //     if (counter === array.length) {
+  //       resolve(result);
+  //     }
   //   });
   // });
   throw new Error('Not implemented');
 }
+
 
 module.exports = {
   willYouMarryMe,
