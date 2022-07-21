@@ -129,47 +129,58 @@ class ElementSelector {
   }
 
   element(value) {
-    if (this.elementT) { throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector'); } else { this.elementT = `${value}`; return this; }
+    if (this.idT || this.classT || this.pseudoElementT || this.pseudoClassT || this.attrT) { throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element'); } else if (this.elementT) { throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector'); } else { this.elementT = `${value}`; return this; }
   }
 
   id(value) {
-    if (this.idT) { throw new Error('Id should not occur more then one time inside the selector'); } else { this.idT = `#${value}`; return this; }
+    if (this.classT || this.pseudoElementT || this.pseudoClassT || this.attrT) { throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element'); } else
+    if (this.idT) { throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector'); } else { this.idT = `#${value}`; return this; }
   }
 
   class(value) {
-    this.classT += `.${value}`;
-    return this;
+    if (this.pseudoElementT || this.pseudoClassT || this.attrT) { throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element'); } else {
+      this.classT += `.${value}`;
+      return this;
+    }
   }
 
   attr(value) {
-    this.attrT += `[${value}]`;
-    return this;
+    if (this.pseudoElementT || this.pseudoClassT) { throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element'); } else {
+      this.attrT += `[${value}]`;
+      return this;
+    }
   }
 
   pseudoClass(value) {
-    this.pseudoClassT += `:${value}`;
-    return this;
+    if (this.pseudoElementT) { throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element'); } else {
+      this.pseudoClassT += `:${value}`;
+      return this;
+    }
   }
 
   pseudoElement(value) {
-    if (this.pseudoElementT) { throw new Error('Pseudo-element should not occur more then one time inside the selector'); } else { this.pseudoElementT += `::${value}`; return this; }
+    if (this.pseudoElementT) {
+      throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+    } else { this.pseudoElementT = `::${value}`; return this; }
   }
 
   // eslint-disable-next-line class-methods-use-this
   combine(selector1, combinator, selector2) {
-    // const obj = {
-    //   selector1Q: selector1,
-    //   combinatorQ: combinator,
-    //   selector2Q: selector2,
-    //   com(selector1Q, combinatorQ, selector2Q) { return selector1Q + combinatorQ + selector2Q; },
-    // };
-    // return obj.com;
-    this.string = `${selector1.string} ${combinator} ${selector2.string}`;
+    this.string = selector1.stringify() + ' ' + combinator + ' ' + selector2.stringify();
+
     return this;
   }
 
   stringify() {
-    if (this.elementT || this.idT || this.classT || this.attrT || this.pseudoClassT || this.pseudoElementT) { this.string = this.elementT + this.idT + this.classT + this.attrT + this.pseudoClassT + this.pseudoElementT; } else { this.string = ''; }
+    if (this.elementT || this.idT || this.classT || this.attrT || this.pseudoClassT || this.pseudoElementT) {
+      this.elementT = this.elementT || '';
+      this.idT = this.idT || '';
+      this.classT = this.classT || '';
+      this.attrT = this.attrT || '';
+      this.pseudoClassT = this.pseudoClassT || '';
+      this.pseudoElementT = this.pseudoElementT || '';
+      this.string = this.elementT + this.idT + this.classT + this.attrT + this.pseudoClassT + this.pseudoElementT;
+    }
     return this.string;
   }
 }

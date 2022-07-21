@@ -149,6 +149,19 @@ function getFastestPromise(array) {
  *
  */
 function chainPromises(/* array, action */) {
+  // return new Promise((resolve, reject) => {
+  //   let counter = 0;
+  //   array.forEach((promise) => {
+  //     promise.then((value) => {
+  //       counter += 1;
+  //       if (counter === array.length) {
+  //         resolve(action(value));
+  //       }
+  //     }).catch((error) => {
+  //       reject(error);
+  //     });
+  //   });
+  // });
   throw new Error('Not implemented');
 }
 
