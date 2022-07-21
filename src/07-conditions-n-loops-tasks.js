@@ -1,3 +1,6 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-mixed-operators */
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-properties */
 /* eslint-disable max-len */
@@ -215,10 +218,25 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let start = a;
+  let end = b;
+  if (a > b) {
+    start = b;
+    end = a;
+  } else if (a === b) {
+    return isStartIncluded ? `[${a}, ${a}]` : `(${a}, ${a})`;
+  } else if (a < b) {
+    if (isStartIncluded && !isEndIncluded) {
+      start = a;
+      end = b;
+    } else if (!isStartIncluded && isEndIncluded) {
+      start = a;
+      end = b;
+    }
+  }
+  return `${isStartIncluded ? '[' : '('}${start}, ${end}${isEndIncluded ? ']' : ')'}`;
 }
-
 
 /**
  * Reverse the specified string (put all chars in reverse order)
@@ -232,8 +250,12 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  let reversed = '';
+  for (let i = str.length - 1; i >= 0; i -= 1) {
+    reversed += str[i];
+  }
+  return reversed;
 }
 
 
@@ -249,8 +271,13 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  let reversed = 0;
+  while (num > 0) {
+    reversed = (reversed * 10) + (num % 10);
+    num = Math.floor(num / 10);
+  }
+  return reversed;
 }
 
 
