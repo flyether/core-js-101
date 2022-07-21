@@ -28,8 +28,35 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe(/* isPositiveAnswer */) {
-  throw new Error('Not implemented');
+function willYouMarryMe(isPositiveAnswer) {
+  // return new Promise((resolve, reject) => {
+  //   if (typeof isPositiveAnswer === 'boolean') {
+  //     if (isPositiveAnswer === true) {
+  //       resolve('Hooray!!! She said "Yes"!');
+  //     } else {
+  //     // eslint-disable-next-line prefer-promise-reject-errors
+  //       resolve('Oh no, she said "No".');
+  //     }
+  //     reject(new Error('Wrong parameter is passed! Ask her again.'));
+  //   }
+  // });
+  return new Promise((resolve, reject) => {
+    if (typeof isPositiveAnswer === 'boolean') {
+      if (isPositiveAnswer === true) {
+        const p = Promise.resolve('Hooray!!! She said "Yes"!');
+        p.then((answer) => resolve(answer));
+        p.catch((error) => reject(error));
+      } else {
+        const p = Promise.resolve('Oh no, she said "No".');
+        p.then((answer) => resolve(answer));
+        p.catch((error) => reject(error));
+      }
+    } else {
+      reject(new Error('Wrong parameter is passed! Ask her again.'));
+    }
+  });
+
+  // throw new Error('Not implemented');
 }
 
 
@@ -48,9 +75,24 @@ function willYouMarryMe(/* isPositiveAnswer */) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
+function processAllPromises(array) {
+  return new Promise((resolve, reject) => {
+    const result = [];
+    let counter = 0;
+    array.forEach((promise) => {
+      promise.then((value) => {
+        result.push(value);
+        counter += 1;
+        if (counter === array.length) {
+          resolve(result);
+        }
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  });
 }
+
 
 /**
  * Return Promise object that should be resolved with value received from
@@ -71,10 +113,24 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
+function getFastestPromise(array) {
+  return new Promise((resolve, reject) => {
+    const result = [];
+    let counter = 0;
+    array.forEach((promise) => {
+      promise.then((value) => {
+        result.push(value);
+        counter += 1;
+        if (counter === array.length) {
+          resolve(result[0]);
+        }
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  });
+  // throw new Error('Not implemented');
 }
-
 /**
  * Return Promise object that should be resolved with value that is
  * a result of action with values of all the promises that exists in array.

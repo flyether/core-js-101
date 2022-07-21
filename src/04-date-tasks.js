@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable max-len */
 /* *******************************************************************************************
  *                                                                                           *
@@ -102,10 +103,16 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
+function angleBetweenClockHands(date) {
   // eslint-disable-next-line no-mixed-operators
   // return Math.PI / 180 * (((date.getUTCHours() % 12 || 12) * 30) - (date.getUTCMinutes() * 6));
-  throw new Error('Not implemented');
+  // throw new Error('Not implemented');
+  const dt = new Date(date);
+  const ah = (dt.getUTCHours() % 12) * 360 / 12 + dt.getUTCMinutes() * 360 / 12 / 60 + dt.getUTCSeconds() * 360 / 12 / 60 / 60 + dt.getUTCMilliseconds() * 360 / 12 / 60 / 60 / 1000;
+  const am = dt.getUTCMinutes() * 360 / 60 + dt.getUTCSeconds() * 360 / 60 / 60 + dt.getUTCMilliseconds() * 360 / 60 / 60 / 1000;
+  let a = Math.abs(ah - am);
+  if (a > 180) a = 360 - a;
+  return a / 180 * Math.PI;
 }
 
 
