@@ -1,3 +1,7 @@
+/* eslint-disable prefer-rest-params */
+/* eslint-disable no-plusplus */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-restricted-properties */
 /* *********************************************************************************************
  *                                                                                             *
  * Please read the following tutorial before implementing tasks:                                *
@@ -21,10 +25,12 @@
  *
  * @example
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
- *
+ * throw new Error('Not implemented');
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  return function ff(x) {
+    return f(g(x));
+  };
 }
 
 
@@ -44,8 +50,11 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  return function ff(x) {
+    // eslint-disable-next-line no-restricted-properties
+    return Math.pow(x, exponent);
+  };
 }
 
 
@@ -63,6 +72,15 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom()      => null
  */
 function getPolynom() {
+  // return function ff(x) {
+  //   // eslint-disable-next-line prefer-rest-params
+  //   const args = Array.from(x);
+  //   const d = 2;
+  //   const rev = args.reverse()
+  //     .map((e, i) => e * (d ** i))
+  //     .reverse()
+  //     .reduce((a, b) => a + b, 0);
+  // };
   throw new Error('Not implemented');
 }
 
@@ -101,10 +119,22 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  if (func === undefined || attempts === undefined) {
+    throw new Error('Not implemented');
+  }
+  return function ff() {
+    let i = 0;
+    while (i < attempts) {
+      try {
+        return func();
+      } catch (e) {
+        i++;
+      }
+    }
+    throw new Error('Not implemented');
+  };
 }
-
 
 /**
  * Returns the logging wrapper for the specified method,

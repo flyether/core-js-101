@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-plusplus */
@@ -496,7 +497,6 @@ function getIdentityMatrix(n) {
 function getIntervalArray(/* start, end */) {
   throw new Error('Not implemented');
 }
-
 /**
  * Returns array containing only unique values from the specified array.
  *
