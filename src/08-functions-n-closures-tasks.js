@@ -164,10 +164,11 @@ function logger(func, logFunc) {
     throw new Error('Not implemented');
   }
   return function ff(...args) {
-    logFunc(`${func.name}(${args}) starts`);
-
+    let argsJson = JSON.stringify(args);
+    argsJson = argsJson.substring(1, (argsJson.length - 1));
+    logFunc(`${func.name}(${argsJson}) starts`);
     const result = func(...args);
-    logFunc(`${func.name}(${args}) ends`);
+    logFunc(`${func.name}(${argsJson}) ends`);
     return result;
   };
 }
