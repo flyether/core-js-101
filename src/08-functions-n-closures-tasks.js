@@ -164,7 +164,6 @@ function logger(func, logFunc) {
     throw new Error('Not implemented');
   }
   return function ff(...args) {
-    console.log(args);
     logFunc(`${func.name}(${args}) starts`);
 
     const result = func(...args);
