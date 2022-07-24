@@ -498,8 +498,6 @@ function getIntervalArray(start, end) {
   const a = end - start + 1;
   // eslint-disable-next-line no-return-assign
   const arr = new Array(a).fill().map((e, i) => e = i + start);
-  // eslint-disable-next-line no-return-assign
-
   return arr;
 }
 /**
