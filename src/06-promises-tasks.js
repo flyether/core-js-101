@@ -148,27 +148,27 @@ function getFastestPromise(array) {
  *    });
  *
  */
-function chainPromises(/* array, action */) {
-  // return new Promise((resolve, reject) => {
-  //   let counter = 0;
-  //   const result = [];
-  //   array.forEach((promise) => {
-  //     if (promise.ok) {
-  //       promise.then((value) => {
-  //         result.push(action(value));
-  //         counter += 1;
-  //       });
-  //     } else {
-  //       reject(new Error('Promise is rejected'));
-  //       counter += 1;
-  //     }
-
-  //     if (counter === array.length) {
-  //       resolve(result);
-  //     }
-  //   });
-  // });
-  throw new Error('Not implemented');
+function chainPromises(array, action) {
+  // eslint-disable-next-line no-unused-vars
+  return new Promise((resolve, reject) => {
+    let finished = 0;
+    let curr = null;
+    array.forEach((promise) => {
+      promise.then((d) => {
+        if (curr === null) {
+          curr = d;
+        } else {
+          curr = action(curr, d);
+        }
+      }).catch(() => {})
+        .finally(() => {
+          finished += 1;
+          if (finished === array.length) {
+            resolve(curr);
+          }
+        });
+    });
+  });
 }
 
 
